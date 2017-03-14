@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>UPT Asrama ITB - Logistik </title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script>
+		window.onload = function() {
+			$.ajax({
+			    url: "https://spreadsheets.google.com/feeds/list/17CO1eQYep-O4bgjLey8SrpAue7saElTp_tCl-ygK2QQ/od6/public/values?alt=json",
+			    type: "GET",
+			    dataType: 'jsonp',
+			    cache: true,
+			    success: function (data, status, error) {
+			    	console.log('success', data);
+					var tuples = data.feed.entry;
+					var tables = '<table>';
+					for(var i in tuples){
+						console.log(data.feed.entry[i].gsx$namabarang.$t);
+						tables += "<tr> <td>" + data.feed.entry[i].gsx$namabarang.$t 
+						tables += "</td> <td>" + data.feed.entry[i].gsx$barangkeluar.$t 
+						tables += "</td> <td>" + data.feed.entry[i].gsx$barangmasuk.$t 
+						tables += "</td> <td>" +data.feed.entry[i].gsx$keterangan.$t 
+						tables += " </td> </tr>"
+					}
+					tables += "</table>"
+					$("#wrapper").html(tables);
+			    },
+			    error: function (data, status, error) {
+			      console.log('error', data, status, error);
+			    }
+			})};
+
+		</script>
+	</head>
+		
+	<body>
+	<div id="wrapper"></div>
+	</body>
+</html>				
