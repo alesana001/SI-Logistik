@@ -45,14 +45,15 @@
 			    left: 0;
 			    width: 100%;
 			    height: 100%;
-			    background: #fafafa;
+			    /*background: #fafafa;
 			    /*
 			    background: linear-gradient(#fff,#F3F5F4);
 			    */
 			    z-index: -99;
 			}
+
 			body {
-				background-color: #fafafa;
+				background-color: #fafafa !important;
 			}
 
 			.wrapper {
@@ -61,7 +62,7 @@
 			}
 
 			.sideleft {
-				width: 60%;
+				width: 62%;
 				margin-top:-20px;
 				border-radius:3px;
 				font-family: 'Arimo', sans-serif;
@@ -82,6 +83,25 @@
     line-height: 1.4;
 
 			}
+
+			.search_text{
+				 position: fixed;
+    right: 156px;
+    padding: 11px;
+    width: 24%;
+    top: 236px;
+			}
+
+			.search{
+				      position: fixed;
+    right: 129px;
+    padding: 33px;
+    width: 28%;
+    top: 138px;
+    height: 62%;
+    border-top: 10px solid #0088aa;
+			}
+
 
 			.sideleft p {
 				font-size:16px;
@@ -126,12 +146,14 @@
 		<link rel="stylesheet" type="text/css" href="semantic-min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script>
+
+		$(".namabarang").hover(function() {
+				console.log("boi")
+			})
+
 		window.onload = function() {
 
 			var barang = [];
-
-		
-
 
 			$.ajax({
 			    url: "https://spreadsheets.google.com/feeds/list/17CO1eQYep-O4bgjLey8SrpAue7saElTp_tCl-ygK2QQ/od6/public/values?alt=json",
@@ -184,7 +206,7 @@
 			    		console.log("ea"+key+"--"+barang[key])
 			    	
 			    		tables2 += "<tr> <td class='namabarang'> " + key 
-			    		tables2 += "</td> <td > <h2 class='ui center aligned header'> " + barang[key] + "</h2></td></tr>"
+			    		tables2 += "</td> <td class='kuantitas' > <h2 class='ui center aligned header'> " + barang[key] + "</h2></td></tr>"
 					});
 
 					tables2 +="</tbody>"
@@ -193,10 +215,12 @@
 					$("#wrapper").html(tables2);
 
 						var options = {
-  valueNames: [ 'namabarang' ]
+  valueNames: [ 'namabarang' , 'kuantitas' ]
 };
 
 var userList = new List('users', options);
+
+userList.sort('kuantitas', {order : "desc"})
 
 
 			    },
@@ -207,7 +231,7 @@ var userList = new List('users', options);
 
 
 			
-
+			
 
 			
 
@@ -232,10 +256,11 @@ var userList = new List('users', options);
 					<h1>Stok Gudang</h1>
 					<hr>
 				<div id ="users">
-				<input class="search" placeholder="Search" />
-  <button class="sort" data-sort="namabarang">
-    Sort by name
-  </button>	
+				<div class="sideleft search">
+				<h1>Logistik</h1>
+				<hr>
+				<input class="search_text" placeholder="Pencarian" />
+  				</div>
 					<br>
 				
 
@@ -244,6 +269,9 @@ var userList = new List('users', options);
 			</div>
 			</div>
 			
+			<div class="sideright">
+
+			</div>
 		
 
 		</div>
