@@ -1,9 +1,138 @@
 <html>
 	<head>
 		<title>UPT Asrama ITB - Logistik </title>
+		<link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
+
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+		
+<script src="semantic-min.js"></script>
+<script src="list.js"></script>
+		<style>
+			.header_bar {
+				position: fixed;
+				left:0;
+				top:0;
+				width:100%;
+				height:63px;
+
+				
+				/*
+				background-color: rgb(52,56,56);
+			   */
+			    border-bottom: 1px solid black;
+			    z-index: 10;
+				
+				background-color:rgb(0,136,170);
+				border-bottom: 1px solid rgb(1, 89, 111);
+				
+			}
+
+			#imghdr {
+				width: 170px;
+			    position: fixed;
+			    top: 21px;
+			    left: 103px;
+			}
+
+			.depan {
+				font-family: "Helvetica";
+			    text-align: center;
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    height: 100%;
+			    background: #fafafa;
+			    /*
+			    background: linear-gradient(#fff,#F3F5F4);
+			    */
+			    z-index: -99;
+			}
+			body {
+				background-color: #fafafa;
+			}
+
+			.wrapper {
+				margin: 136px auto;
+   				width: 85%;
+			}
+
+			.sideleft {
+				width: 60%;
+				margin-top:-20px;
+				border-radius:3px;
+				font-family: 'Arimo', sans-serif;
+				
+
+
+    border: 1px solid rgba(0,0,0,.09);
+
+				background: #fff;
+    			box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    			font-size: 15px;
+    padding: 39px;
+    font-weight: bold;
+
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0;
+    line-height: 1.4;
+
+			}
+
+			.sideleft p {
+				font-size:16px;
+				z-index: 200;
+				font-weight: lighter;
+			}
+
+			#imglogo {
+				width: 229px;
+    			margin-top: 59px;
+			}
+
+			#imgtext {
+				width: 394px;
+    			margin-top: 13px;
+			}
+
+			.infowrite{
+				      height: 47px;
+    margin-top: -5px;
+    /* border-bottom: 1px solid #cacaca; */
+    font-size: 19px;
+    font-weight: 500;
+    color: #0088aa;
+    margin-bottom: -16px;
+    /* background-color: #cacaca; */
+			}
+
+
+			.sideright{
+				position: relative;
+    width: 30%;
+    height: 20px;
+    /* background: white; */
+    float: right;
+    padding: 10px;
+			}
+
+		</style>
+
+
+		<link rel="stylesheet" type="text/css" href="semantic-min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script>
 		window.onload = function() {
+
+			var barang = [];
+
+		
+
+
 			$.ajax({
 			    url: "https://spreadsheets.google.com/feeds/list/17CO1eQYep-O4bgjLey8SrpAue7saElTp_tCl-ygK2QQ/od6/public/values?alt=json",
 			    type: "GET",
@@ -14,25 +143,113 @@
 					var tuples = data.feed.entry;
 					var tables = '<table>';
 					for(var i in tuples){
-						console.log(data.feed.entry[i].gsx$namabarang.$t);
-						tables += "<tr> <td>" + data.feed.entry[i].gsx$namabarang.$t 
-						tables += "</td> <td>" + data.feed.entry[i].gsx$barangkeluar.$t 
-						tables += "</td> <td>" + data.feed.entry[i].gsx$barangmasuk.$t 
-						tables += "</td> <td>" +data.feed.entry[i].gsx$keterangan.$t 
+						//console.log(data.feed.entry[i].gsx$namabarang.$t);
+
+						var namabarang = data.feed.entry[i].gsx$namabarang.$t;
+						var saldo = data.feed.entry[i].gsx$saldo.$t;
+						var tanggal =data.feed.entry[i].gsx$tanggal.$t;
+						var tipe = parseInt(data.feed.entry[i].gsx$tipe.$t);
+						var tipeString;
+
+						tables += "<tr> <td>" + namabarang
+						tables += "</td> <td>" + saldo
+						tables += "</td> <td>" + tanggal
 						tables += " </td> </tr>"
+
+						if (tipe == 1) {
+							tipeString = "Kelistrikan";
+						}
+
+						console.log(namabarang +":" + saldo)
+
+						if (barang[namabarang]) {
+							barang[namabarang] += parseInt(saldo);
+						}
+						else {
+							barang[namabarang] = 0;
+							//console.log("New Item" + namabarang);
+							barang[namabarang] += parseInt(saldo);
+						}
+						console.log(namabarang + " : "+barang[namabarang]);
 					}
 					tables += "</table>"
 					$("#wrapper").html(tables);
+					console.log(barang);
+
+					var tables2 = "<table class='ui celled striped table'>"
+					tables2 += " <thead>  <tr><th class='single line'>Nama Barang</th> <th class = 'ui center aligned header'>Jumlah Stok</th></tr></thead>"
+					tables2 += "<tbody class='list'>"
+
+					Object.keys(barang).forEach(function(key,index) {
+			    		console.log("ea"+key+"--"+barang[key])
+			    	
+			    		tables2 += "<tr> <td class='namabarang'> " + key 
+			    		tables2 += "</td> <td > <h2 class='ui center aligned header'> " + barang[key] + "</h2></td></tr>"
+					});
+
+					tables2 +="</tbody>"
+					tables2 += "</table>"
+
+					$("#wrapper").html(tables2);
+
+						var options = {
+  valueNames: [ 'namabarang' ]
+};
+
+var userList = new List('users', options);
+
+
 			    },
 			    error: function (data, status, error) {
 			      console.log('error', data, status, error);
 			    }
 			})};
 
+
+			
+
+
+			
+
 		</script>
 	</head>
 		
 	<body>
-	<div id="wrapper"></div>
+		<div class="header_bar">
+			<img src="uptasrama.svg" id="imghdr">
+		</div>
+		<div class="depan">
+			<center>
+				
+			</center>
+
+			
+		</div>
+		<div class="wrapper" >
+			
+			<div class ="sideleft" >
+				
+					<h1>Stok Gudang</h1>
+					<hr>
+				<div id ="users">
+				<input class="search" placeholder="Search" />
+  <button class="sort" data-sort="namabarang">
+    Sort by name
+  </button>	
+					<br>
+				
+
+				<div id="wrapper"></div>
+
+			</div>
+			</div>
+			
+		
+
+		</div>
+
+		
+
+
 	</body>
 </html>				
