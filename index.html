@@ -92,6 +92,18 @@
     top: 236px;
 			}
 
+			tr:hover {
+				color:#0088aa;
+				font-weight: 800;
+				cursor: pointer;
+			}
+
+			#stok_gudang:hover {
+				color:#0088aa;
+				font-weight: 800;
+				cursor: pointer;
+			}
+
 			.search{
 				      position: fixed;
     right: 129px;
@@ -140,6 +152,22 @@
     padding: 10px;
 			}
 
+			#detil {
+				margin-top: 91px
+			}
+
+			#detil h2 {
+				font-size:17px;
+			}
+
+
+
+
+
+
+
+
+
 		</style>
 
 
@@ -147,13 +175,13 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script>
 
-		$(".namabarang").hover(function() {
-				console.log("boi")
-			})
-
+		
 		window.onload = function() {
 
 			var barang = [];
+			var tables2;
+			var options;
+			var userList;
 
 			$.ajax({
 			    url: "https://spreadsheets.google.com/feeds/list/17CO1eQYep-O4bgjLey8SrpAue7saElTp_tCl-ygK2QQ/od6/public/values?alt=json",
@@ -198,7 +226,7 @@
 					$("#wrapper").html(tables);
 					console.log(barang);
 
-					var tables2 = "<table class='ui celled striped table'>"
+					tables2 = "<table class='ui celled striped table'>"
 					tables2 += " <thead>  <tr><th class='single line'>Nama Barang</th> <th class = 'ui center aligned header'>Jumlah Stok</th></tr></thead>"
 					tables2 += "<tbody class='list'>"
 
@@ -214,14 +242,65 @@
 
 					$("#wrapper").html(tables2);
 
-						var options = {
-  valueNames: [ 'namabarang' , 'kuantitas' ]
-};
+					options = {  valueNames: [ 'namabarang' , 'kuantitas' ]};
+					userList = new List('users', options);
+					userList.sort('kuantitas', {order : "desc"})
 
-var userList = new List('users', options);
+$("#stok_gudang").click(function() {
 
-userList.sort('kuantitas', {order : "desc"})
+	$("#wrapper").html(tables2);
+	options = {  valueNames: [ 'namabarang' , 'kuantitas' ]};
+	userList = new List('users', options);
+	userList.sort('kuantitas', {order : "desc"})
+}); 
 
+$("tr").click(function() {
+				console.log("boi");
+				var meh = $(this).find(".namabarang").text().slice(1);
+				var qty  = $(this).find(".kuantitas").text().slice(2);
+				console.log(meh);
+
+				var tables3 = ""
+				$("#detil").html(tables3);
+				tables3 = "<center><h2>" + meh + " (" + qty + ")" + "</h2> </center><br>"
+				tables3 += "<table class='ui celled striped table'>"
+				
+				tables3 += " <thead>  <tr><th >Tanggal</th> <th >Jumlah</th> <th >Keterangan</th></tr></thead>"
+					tables3 += "<tbody >"
+
+				for (var i in tuples) {
+					var namabarang = data.feed.entry[i].gsx$namabarang.$t;
+			
+					if(namabarang.localeCompare(meh) == 0) {
+						var saldo = data.feed.entry[i].gsx$saldo.$t;
+						var tanggal =data.feed.entry[i].gsx$tanggal.$t;
+						var keterangan = data.feed.entry[i].gsx$keterangan.$t;
+						console.log(tanggal+" : "+saldo + "(" + keterangan + ")" )
+						tables3 += "<tr><td>" +tanggal +"</td>"
+						tables3 += "<td>" + saldo +"</td>"
+						tables3 += "<td>" + keterangan+ "</td>"
+						tables3 += "</tr>" 
+					}
+				}
+
+				tables3 += "</tbody></tables>"
+				$("#wrapper").html(tables3);
+				//$(this).css('background-color','#cacaca');
+
+
+
+
+$(window).on('scroll', function(){
+	$timeline_block.each(function(){
+		if( $(this).offset().top <= $(window).scrollTop()+$(window).height()*0.75 && $(this).find('.cd-timeline-img').hasClass('is-hidden') ) {
+			$(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
+		}
+	});
+});
+
+
+
+		});
 
 			    },
 			    error: function (data, status, error) {
@@ -231,6 +310,7 @@ userList.sort('kuantitas', {order : "desc"})
 
 
 			
+	
 			
 
 			
@@ -253,13 +333,43 @@ userList.sort('kuantitas', {order : "desc"})
 			
 			<div class ="sideleft" >
 				
-					<h1>Stok Gudang</h1>
+					<h1 id="stok_gudang">Stok Gudang</h1>
 					<hr>
 				<div id ="users">
 				<div class="sideleft search">
 				<h1>Logistik</h1>
 				<hr>
 				<input class="search_text" placeholder="Pencarian" />
+				<div id="detil">
+
+
+		
+
+
+
+	
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</div>
+
+
   				</div>
 					<br>
 				
@@ -281,3 +391,7 @@ userList.sort('kuantitas', {order : "desc"})
 
 	</body>
 </html>				
+
+<script>
+
+</script>
