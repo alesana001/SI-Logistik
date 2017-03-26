@@ -24,7 +24,7 @@ class CreateLogistikTable extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->string('idtransaksi',50)->primary();
-            $table->timestamp('tanggal');
+            $table->date('tanggal');
             $table->string('jenistransaksi',50);
             $table->string('pengirim',50);
             $table->string('penerima',50);
@@ -50,6 +50,7 @@ class CreateLogistikTable extends Migration
      */
     public function down()
     {
+    	Schema::dropIfExists('transaksisatuan');
         Schema::dropIfExists('barang');
         Schema::dropIfExists('transaksi');
     }
