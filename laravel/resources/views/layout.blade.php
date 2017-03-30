@@ -1,7 +1,11 @@
 <html>
-    <body>
-        <h1>@yield('header')</h1>
-
-        @yield('content')
-    </body>
+	<head>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<title>@yield('title')</title>
+	</head>
+	<body>
+		<div class="container-fluid">
+			@yield('content')
+		</div>
+	</body>
 </html>

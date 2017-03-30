@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::get('/transaksi', 'transactionController@showAll');
+
+Route::get('/transaksi/detail/{id}', ['uses' => 'transactionController@showDetail']);

@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\DB;
 class transactionController extends Controller
 {
 	public function showAll(){
-	    $transactions = DB::select('select * from transaksisatuan natural join transaksi order by tanggal desc;');
+	    $transactions = DB::table("transaksi")->orderBy("tanggal","desc")->get();
 	    return \View::make('transaction', compact("transactions"));
-	 //    foreach ($transactions as $transaction) {
-		// 	echo $transaction->idbarang;
-		//     echo "<br/>\n";
-		// }
+	}
+
+	public function showDetail($id){
+		$transaction = DB::table("transaksi")->join("transaksisatuan","transaksi.idtransaksi","=","transaksisatuan.idtransaksi")->where("transaksisatuan.idtransaksi",$id)->get();
+		return \View::make('transactionDetail',compact("transaction"));
 	}
 }
