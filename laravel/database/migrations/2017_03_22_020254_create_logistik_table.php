@@ -23,7 +23,7 @@ class CreateLogistikTable extends Migration
 
         Schema::create('transaksi', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->string('idtransaksi',50)->primary();
+            $table->increments('idtransaksi');
             $table->date('tanggal');
             $table->string('jenistransaksi',50);
             $table->string('pengirim',50);
@@ -33,10 +33,10 @@ class CreateLogistikTable extends Migration
 
         Schema::create('transaksisatuan', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->string('idtransaksisatuan',50)->primary();
+            $table->increments('idtransaksisatuan');
             $table->string('idbarang',50);
-            $table->string('idtransaksi',50);
-            $table->integer('jumlah');
+            $table->unsignedInteger('idtransaksi');
+            $table->unsignedInteger('jumlah');
             $table->string('keterangan',50);
             $table->foreign('idbarang')->references('idbarang')->on('barang');
             $table->foreign('idtransaksi')->references('idtransaksi')->on('transaksi');

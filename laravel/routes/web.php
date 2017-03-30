@@ -15,11 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/transaksi', 'transactionController@showAll');
+Route::any('/transaksi', 'transactionController@showAll');
 
 Route::get('/transaksi/detail/{id}', ['uses' => 'transactionController@showDetail']);
 
 Route::get('/transaksi/tambah', function(){
-	$names = DB::table("barang")->select("nama")->distinct()->get();
+	$names = DB::table("barang")->select("idbarang","nama")->distinct()->get();
 	return \View::make('transactionAdd', compact("names"));
 });
+
+Route::post('/transaksi/tambah/do', array('uses'=>'transactionController@add'));

@@ -6,17 +6,19 @@
 
 @section('content')
 	<h1>Tambahkan Transaksi</h1><br/>
-	<form class="form-horizontal" method="post">
+	<form class="form-horizontal" action="/transaksi/tambah/do" method="post">
+		{{ csrf_field() }}
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="tanggal">Tanggal:</label>
 			<div class="col-sm-10">
-				<input type="date" class="form-control" id="tanggal" placeholder="Enter email">
+				<input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Enter email" required>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="jenistransaksi">Jenis Transaksi:</label>
 			<div class="col-sm-10">
-				<select class="form-control" id="jenistransaksi">
+				<select class="form-control" id="jenistransaksi" name="jenistransaksi" required>
+					<option value="" disabled selected>Pilih jenis</option>
 					<option>keluar</option>
 					<option>masuk</option>
 				</select>
@@ -25,19 +27,19 @@
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="pengirim">Pengirim:</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" id="pengirim" placeholder="Pengirim">
+				<input type="text" class="form-control" id="pengirim" name="pengirim" placeholder="Pengirim" required>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="penerima">Penerima:</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" id="penerima" placeholder="Penerima">
+				<input type="text" class="form-control" id="penerima" name="penerima" placeholder="Penerima" required>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="asramatujuan">Asrama Tujuan:</label>
 			<div class="col-sm-10">
-				<select class="form-control" id="jenistransaksi">
+				<select class="form-control" id="asramatujuan" name="asramatujuan" required>
 					<option value="" disabled selected>Asrama Tujuan</option>
 					<option>Kidang Pananjung</option>
 					<option>Kanayakan</option>
@@ -52,10 +54,10 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="namabarang">Barang:</label>
 					<div class="col-sm-10">
-						<select class="form-control" id="barang" name="barang[]">
+						<select class="form-control" id="barang" name="barang[]" required>
 							<option value="" disabled selected>Nama Barang</option>
 							@foreach ($names as $name)
-							<option>{{$name->nama}}</option>
+							<option value="{{$name->idbarang}}">{{$name->nama}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -63,13 +65,13 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="jumlah">Jumlah:</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="jumlah" name="jumlah[]" placeholder="Jumlah Barang">
+						<input type="text" class="form-control" id="jumlah" name="jumlah[]" placeholder="Jumlah Barang" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="keterangan">Keterangan:</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="keterangan" name="keterangan[]" placeholder="Keterangan Barang">
+						<input type="text" class="form-control" id="keterangan" name="keterangan[]" placeholder="Keterangan Barang" required>
 					</div>
 				</div>
 			</div>
@@ -100,10 +102,10 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="namabarang">Barang:</label>
 					<div class="col-sm-10">
-						<select class="form-control" id="barang" name="barang[]">
+						<select class="form-control" id="barang" name="barang[]" required>
 							<option value="" disabled selected>Nama Barang</option>
 							@foreach ($names as $name)
-							<option>{{$name->nama}}</option>
+							<option value="{{$name->idbarang}}">{{$name->nama}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -111,13 +113,13 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="jumlah">Jumlah:</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="jumlah" name="jumlah[]" placeholder="Jumlah Barang">
+						<input type="text" class="form-control" id="jumlah" name="jumlah[]" placeholder="Jumlah Barang" required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="keterangan">Keterangan:</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="keterangan" name="keterangan[]" placeholder="Keterangan Barang">
+						<input type="text" class="form-control" id="keterangan" name="keterangan[]" placeholder="Keterangan Barang" required>
 					</div>
 				</div>
 				<a href="#" class="col-sm-offset-2 col-sm-10 remove_field">Remove</a><br/>
