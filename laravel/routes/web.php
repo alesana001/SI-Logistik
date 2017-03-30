@@ -18,3 +18,8 @@ Route::get('/', function () {
 Route::get('/transaksi', 'transactionController@showAll');
 
 Route::get('/transaksi/detail/{id}', ['uses' => 'transactionController@showDetail']);
+
+Route::get('/transaksi/tambah', function(){
+	$names = DB::table("barang")->select("nama")->distinct()->get();
+	return \View::make('transactionAdd', compact("names"));
+});
