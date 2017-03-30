@@ -9,9 +9,10 @@ class transactionController extends Controller
 {
 	public function showAll(){
 	    $transactions = DB::select('select * from transaksisatuan natural join transaksi order by tanggal desc;');
-	    foreach ($transactions as $transaction) {
-			echo $transaction->idbarang;
-		    echo "<br/>\n";
-		}
+	    return \View::make('transaction', compact("transactions"));
+	 //    foreach ($transactions as $transaction) {
+		// 	echo $transaction->idbarang;
+		//     echo "<br/>\n";
+		// }
 	}
 }
